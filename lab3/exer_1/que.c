@@ -58,6 +58,13 @@ struct Element* newElement(int i) {
     e->next = NULL;
     return e;
 }
+struct Element* newElementwithPriority(int i, int p) {
+    struct Element* e = (struct Element*) malloc(sizeof(struct Element));
+    e->value = i;
+    e->next = NULL;
+    e->priority = p;
+    return e;
+}
 
 void printQueue(struct Queue* q) {
     if( q->head == NULL) {

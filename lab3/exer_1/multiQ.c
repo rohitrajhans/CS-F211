@@ -1,9 +1,12 @@
+// #include"que.h"
 #include"multiQ.h"
+int size;
 
 mq createMQ(int num)
 {
     mq MultiQ;
     MultiQ = (mq)malloc(sizeof(que)*num);
+	size = num;
     int i;
     for(i=0;i<num;i++) {
         MultiQ[i] = newQ();
@@ -13,7 +16,7 @@ mq createMQ(int num)
 }
 
 int sizeMQ( mq multiq) {
-	return sizeof(multiq)/sizeof(que);
+	return size;
 }
 
 mq addMQ( mq multiq, Task t) {
@@ -21,7 +24,9 @@ mq addMQ( mq multiq, Task t) {
 	int size = sizeMQ(multiq);
 	for( i=0; i<size; i++) {
 		if( t->priority == multiq[i]->priority) {
-			addQ( multiq[i], t);
+			printf("Task priority: %d\n", t->priority);
+			multiq[i] = addQ( multiq[i], t);
+			printf("Size of que %d\n", lengthQ(multiq[i]));
 			return multiq;
 		}
 	}
@@ -62,19 +67,19 @@ bool isEmptyMQ(mq multiq) {
 	return true;
 }
 
-int sizeMQbyPriority( mq multiq, priority p) {
+int sizeMQbyPriority( mq multiq, int p) {
 	int count = 0;
-	int size = sizeMQ(multiq);
+	int sizeofmq = sizeMQ(multiq);
 	int i;
-	for( i=0; i<size; i++) {
+	for( i=0; i<sizeofmq; i++) {
 		if( multiq[i]->priority == p) {
-			count++;
+			count += lengthQ(multiq[i]);
 		}
 	}
 	return count;
 }
 
-que getQueuefromMQ( mq multiq, priority p) {
+que getQueuefromMQ( mq multiq, int p) {
 	int size = sizeMQ(multiq);
 	int i;
 	for(i=0; i<size; i++) {
@@ -92,8 +97,17 @@ void printMQ(mq multiq) {
 	for(i=0; i<size; i++) {
 		printf("Printing queue with priority %d: ", multiq[i]->priority);
 		printQueue(multiq[i]);
-		printf("\n");
 	}
 	return;
+}
+
+int totalMQSize(mq multiq) {
+	int sizeofmq = sizeMQ(multiq);
+	printf("%d\n", lengthQ(multiq[1]));
+	int i, count=0;
+	for( i=0; i<sizeofmq; i++) {
+		count += lengthQ(multiq[i]);
+	}
+	return count;
 }
 

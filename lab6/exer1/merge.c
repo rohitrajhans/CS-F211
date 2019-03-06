@@ -60,12 +60,13 @@ void iterativeMergeSort(Element ls[], int n) {
 	int i; // size to compare
 	int l;
 
-	for( i=1; i<n; i *= 2) {
+	for( i=1; i<n; i = i*2) {
 		for( l=0; l<n-1; l += i*2) {
 			
 			int m = l+i-1;
 			
 			int r;
+
 			if(l+(2*i)-1 > n-1) {
 				r = n-1;
 			}
@@ -81,12 +82,25 @@ void iterativeMergeSort(Element ls[], int n) {
 
 			int k;
 			for(k=0; k<sz1; k++) {
-				ls1[k] = ls[k];
+				ls1[k] = ls[k+l];
 			}
 			for(k=0; k<sz2; k++) {
 				ls2[k] = ls[k+m+1];
 			}
-			merge(ls1, sz1, ls2, sz2, ls);
+
+			Element ls_temp[sz1+sz2];
+
+			merge(ls1, sz1, ls2, sz2, ls_temp);
+			for(k=0; k<sz1+sz2; k++) {
+				ls[k + l] = ls_temp[k];
+			}
+			// printf("Iteration %d: \n", i);
+			// printf("ls1: \n");
+			// printRecords(ls1, sz1);
+			// printf("ls2: \n");
+			// printRecords(ls2, sz2);
+			// printf("ls: \n");
+			// printRecords(ls, sz1+sz2);
 		}
 	}
 }

@@ -1,6 +1,5 @@
 #include "qsort.h"
 
-
 int main(int argc, char* argv[])
 {
 	size = 0;
@@ -14,8 +13,10 @@ int main(int argc, char* argv[])
 
 	// quickSortKnownKeyRange(studentArray,size, 10, 20);
 
-	// printf("\nSorted output is:\n");
+	KeyStruct keyst = extractKeys(studentArray, size, 10, 20);
 
-	// printArray(studentArray, size);
+	printf("\nSorted output is:\n");
+
+	printArray(keyst->Keys, size);
 	
 }

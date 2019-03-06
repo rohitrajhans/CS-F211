@@ -27,5 +27,6 @@ struct Queue* addQ(struct Queue* q, struct Element* e);
 int lengthQ( struct Queue* q);
 
 struct Element* newElement(int i);
+struct Element* newElementwithPriority(int i, int p);
 
 void printQueue(struct Queue* q);

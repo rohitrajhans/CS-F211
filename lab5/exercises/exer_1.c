@@ -76,8 +76,8 @@ void main() {
 
 	clock_t end = clock();
 
-	printRecords();
-	printf("Count: %d\n", count);
+	// printRecords();
+	// printf("Count: %d\n", count);
 	printf("Elapsed: %f seconds\n", (double)(end - start) / CLOCKS_PER_SEC);
 	fclose(ptr);
 }

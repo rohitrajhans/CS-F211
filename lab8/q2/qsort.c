@@ -33,7 +33,34 @@ int* readData( char* fileName) {
 	return arr;
 }
 
-void quickSortKnownKeyRange( int* Ls, int size, int lo, int hi) {
-	KeyStruct keyst = extractKeys(ls, size, lo, hi);
-	return;
+// void quickSortKnownKeyRange( int* Ls, int size, int lo, int hi) {
+	
+// }
+
+KeyStruct extractKeys( int * ls, int size, int low, int hi) {
+	KeyStruct keyst = (KeyStruct) malloc( sizeof( struct keyStruct));
+	
+	keyst->Keys = (int *)malloc( sizeof( int) * size);
+	keyst->keysSize = size;
+
+	int no = hi - low + 1;
+	int c[no];
+	int i;
+	for( i = 0; i<no; i++) {
+		c[i] = 0;
+	}
+	for( i=0; i<size; i++) {
+		c[ls[i] - low]++;
+	}
+	for( i=1; i<size; i++) {
+		c[i] += c[i-1];
+	}
+
+	for( i=size-1; i>=0; i--) {
+		(keyst->Keys)[c[ls[i] - low]] = ls[i];
+		c[ls[i] - low]--;
+	}
+
+	return keyst;
+
 }
