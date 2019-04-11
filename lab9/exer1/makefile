@@ -17,4 +17,4 @@ clean:
 	rm -rf *.o
 
 debug:
-	gdb ./exe
+	gdb --tui ./exe

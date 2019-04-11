@@ -61,6 +61,29 @@ int testCyclic( listptr ls) {
 	return 1;
 }
 
+int hareAndTortoise(listptr ls) {
+	listptr hare = ls;
+	listptr tortoise = ls;
+
+	if( ls == NULL || ls->next==NULL || ls->next->next==NULL) {
+		return 0;
+	}
+
+	hare = hare->next->next;
+	tortoise = tortoise->next;
+	
+	while(1) {
+		if( hare->next->next==NULL || tortoise->next==NULL || hare->next == NULL) {
+			return 0;
+		}
+		if( hare->next == tortoise || hare == tortoise) {
+			return 1;
+		}
+		hare = hare->next->next;
+		tortoise = tortoise->next;
+	}
+}
+
 int main() {
 	listptr ls = createList(MAX);
 	FILE* fp = fopen("heapspace.txt", "w");
@@ -72,7 +95,8 @@ int main() {
 	fclose(fp);
 	
 	ls = createCyclic(ls);
-	int test = testCyclic(ls);
+	// int test = testCyclic(ls);
+	int test = hareAndTortoise(ls);
 	if( test == 1) {
 		printf("Cyclic\n");
 	}

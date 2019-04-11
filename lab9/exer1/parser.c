@@ -12,16 +12,17 @@ char** parser(char* filename) {
 	char ** book;
 	book = (char **) malloc(sizeof( char*) * MAX);
 	char *str;
-	int count = 0, size = MAX, i, flag;
-
+	int size = MAX, i, flag;
+	count = 0;
 	while( !feof(fp)) {
 		if( count == size) {
 			book = (char **) realloc(book, sizeof( char*) * size*2);
 		}
 
 		flag = 1;
-		str = (char *)malloc(sizeof(char)*20);
+		str = (char *)malloc(sizeof(char)*50);
 		fscanf(fp, "%s\n", str);
+		// printf("%d\n", count);
 		for( i=0; i<strlen(str); i++) {
 			if( ! (( str[i] >= 'A' && str[i] <= 'z') || (str[i] >= 'a' && str[i] <= 'z')) ) {
 				free(str);
@@ -33,7 +34,8 @@ char** parser(char* filename) {
 		if( flag == 0)
 			continue;
 		book[count] = str;
-		// printf("%s\n", str);
+		strcpy(book[count], str);
+		// printf("%s\n", book[count]);
 		count++;
 	}
 	
