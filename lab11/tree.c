@@ -12,34 +12,37 @@ Node findkey(char * name, Node root) {
     findkey(name, root->sibling);
 }
 
-Node findKeyInChild(char * name, Node root) {
+int findKeyInChild(char * name, Node root) {
     if( root == NULL)
-        return NULL;
+        return 0;
 
     Node temp = root->child;
 
     while(temp) {
-        if( temp->key = name) {
-            return temp;
+        if( strcmp(temp->key, name) == 0) {
+            return 1;
         }
         else {
             temp = temp->sibling;
         }
     }
-    return NULL;
+    return 0;
 }
 
 
 void traverseTree(Node root) {
-    if(root == NULL)
+    if(root == NULL) {
+        printf("Tree is empty\n");
         return;
+    }
 
     Node temp = root;
-
     while(temp) {
-        printf("%s\n", temp->key);
+        if( temp->key)
+            printf("%s\n", temp->key);
         if(temp->child)
             traverseTree(temp->child);
+        // printf("\n");
         temp = temp->sibling;
     }
 }
@@ -49,7 +52,7 @@ Node newNode(char *key) {
     n->child = NULL;
     n->sibling = NULL;
     n->key = (char*) malloc( sizeof(char)* strlen(key));
-    n->key = key;
+    strcpy(n->key, key);
     return n;
 }
 
@@ -69,29 +72,38 @@ void insertDomain(char * domain, char * ip, Node root) {
         
         while( (domain[i] != '.') && i>=0) {
             str[j] = domain[i];
+            // printf("%d\n", i);
             i--;
             j++;
         }
         str[j] = '\0';
         i--;
         j=0;
-        if( i<0) {
-            break;
-        }
         strrev(str);
 
-        Node temp2 = findKeyInChild(str, temp);
+        int check = findKeyInChild(str, temp);
+        // printf("%s %s %d\n", str, domain, strlen(domain));
 
-        if( temp2 != NULL) {
-            printf("%s %s not null\n", str, temp2->key);
-            temp = temp2;
-            continue;
+        if( check != 0) {
+            // printf("%s %s not null\n", str, temp->key);
+            temp = temp->child;
+            while( temp) {
+                if(strcmp(temp->key, str) == 0) {
+                    break;
+                }
+                else
+                    temp = temp->sibling;
+            }
         }
         else {
-            printf("%s %s null\n", str, temp->key);
+            // printf("%s %s null\n", str, temp->key);
             newN = newNode(str);
             if( temp->child == NULL) {
+                // printf("%s->child == NULL\n", temp->key);
                 temp->child = newN;
+                temp = newN;
+                // printf("%s\n", temp->key);
+                // continue;
             }
             else {
                 temp = temp->child;
@@ -101,13 +113,17 @@ void insertDomain(char * domain, char * ip, Node root) {
 
                 temp->sibling = newN;
                 temp = newN;
-                continue;
+                // continue;
             }
+        }
+
+        if( i<0) {
+            break;
         }
     }
 
     newN = newNode(ip);
-    if(temp == NULL) {
+    if(temp->child == NULL) {
         temp->child = newN;
     }
     else {
@@ -133,4 +149,53 @@ char *strrev(char *str)
                 *p1 ^= *p2;
             }
       return str;
+}
+
+void lookup(char * name, Node root) {
+
+    int i, j=0;
+    char str[50];
+    i = strlen(name) - 1;
+    Node temp = root;
+    
+    while(1) {
+
+        while( (name[i] != '.') && i>=0) {
+            str[j] = name[i];
+            // printf("%d\n", i);
+            i--;
+            j++;
+        }
+        str[j] = '\0';
+        i--;
+        j=0;
+        strrev(str);
+
+        int check = findKeyInChild(str, temp);
+        
+        if( !check) {
+            printf("%s does not exist\n", name);
+            return;
+        }
+        
+        else {
+            temp = temp->child;
+
+            while( temp) {
+                if( !strcmp(temp->key, str)) {
+                    break;
+                }
+                else {
+                    temp = temp->sibling;
+                }
+            }
+        }
+
+        if( i<0) {
+            break;
+        }
+    }
+
+    printf("%s exists. IP: \n", name);
+    traverseTree(temp->child);
 }

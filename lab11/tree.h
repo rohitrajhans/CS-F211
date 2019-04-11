@@ -28,7 +28,7 @@ void insertDomain(char * domain, char * ip, Node root);
 Node findkey(char * value, Node root);
 // returns the Node that matches "value"
 
-Node findKeyInChild(char *name, Node root);
+int findKeyInChild(char *name, Node root);
 
 void printTree(Node root);
 // Traverses the tree and prints domain name and IP

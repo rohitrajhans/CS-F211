@@ -23,10 +23,10 @@ void readData(char *filename, Node root) {
         }
         else if (action == 2) {
             fscanf(fp, "%s", domain);
-            // searchForDomain(domain);
+            lookup(domain, root);
         }
         else if(action == -1){
-            exit(-1);
+            return;
         }
     }
 }
@@ -38,7 +38,7 @@ void readDomains(FILE* fp, int size, Node root) {
     for( i=0; i<size; i++) {
         fscanf(fp, "%s", domain);
         fscanf(fp, "%s", ip);
-        printf("%s %s\n", domain, ip);
+        // printf("%s %s\n", domain, ip);
         insertDomain(domain, ip, root);
     }
 }

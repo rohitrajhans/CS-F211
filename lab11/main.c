@@ -7,6 +7,6 @@ int main() {
     root->key = NULL;
 
     populateData("input.txt", root);
-    traverseTree(root); 
+    traverseTree(root);
     return 0;
 }
