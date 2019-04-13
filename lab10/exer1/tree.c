@@ -1,5 +1,14 @@
 #include "tree.h"
 
+void printInorder(Node root) {
+    if( root == NULL)
+        return;
+
+    printInorder(root->left);
+    printf("%d\n", root->val);
+    printInorder(root->right);
+}
+
 Node newNode(int val) {
     Node newN = (Node) malloc( sizeof( struct node));
     newN->left = NULL;
@@ -36,16 +45,16 @@ Node add(Node root, int val, Node p) {
     }
 
     root->hb = findHeight(root->left) - findHeight(root->right);
-    if( root->hb > 1 && val < root->left) {
+    if( root->hb > 1 && val < root->left->val) {
         root = rotate( root, root->left->left, root->left, root, parent);
     }
-    else if( root->hb > 1 && val > root->left) {
+    else if( root->hb > 1 && val > root->left->val) {
         root = rotate(root, root->left->right, root->left, root, parent);
     }
-    else if( root->hb < -1  && val < root->right) {
+    else if( root->hb < -1  && val < root->right->val) {
         root = rotate(root, root->right->left, root->right, root, parent);
     }
-    else if( root->hb < -1 && val > root->right) {
+    else if( root->hb < -1 && val > root->right->val) {
         root = rotate(root, root->right->right, root->right, root, parent);
     }
 
@@ -69,16 +78,18 @@ Node find(Node root, int val) {
     return find(root->right, val);
 }
 
-Node deleteNode(Node root, int val) {
+Node deleteNode(Node root, int val, Node p) {
     if(root == NULL) {
         return NULL;
     }
 
+    Node parent = p;
+
     if( val < root->val) {
-        root->left = deleteNode(root->left, val);
+        root->left = deleteNode(root->left, val, root);
     }
     else if ( val > root->val) {
-        root->right = deleteNode(root->right, val);
+        root->right = deleteNode(root->right, val, root);
     }
     else {
         if( root->left == NULL) {
@@ -97,9 +108,24 @@ Node deleteNode(Node root, int val) {
                 temp = temp->left;
             }
             root->val = temp->val;
-            root->right = deleteNode(root->right, temp->val);
+            root->right = deleteNode(root->right, temp->val, root);
         }
     }
+
+    root->hb = findHeight(root->left) - findHeight(root->right);
+    if( root->hb > 1 && val < root->left->val) {
+        root = rotate( root, root->left->left, root->left, root, parent);
+    }
+    else if( root->hb > 1 && val > root->left->val) {
+        root = rotate(root, root->left->right, root->left, root, parent);
+    }
+    else if( root->hb < -1  && val < root->right->val) {
+        root = rotate(root, root->right->left, root->right, root, parent);
+    }
+    else if( root->hb < -1 && val > root->right->val) {
+        root = rotate(root, root->right->right, root->right, root, parent);
+    }
+
     return root;
 }
 
@@ -184,4 +210,34 @@ int max(int a, int b) {
         return b;
     else
         return a;
+}
+
+/********************************* EXER 2 ********************************/
+
+Node inorder( Node root, int k) {
+
+    if( k != 0 && root == NULL)
+        return NULL;
+    else if( k == 0)
+        return root;
+    else if( root->left != NULL)
+        return inorder(root->left, k-1);
+    else
+        return inorder(root->right, k-1);
+
+}
+
+void rangeSearch( Node root, int k1, int k2) {
+    if( root == NULL)
+        return;
+        
+    if( root->val > k2)
+        rangeSearch(root->left, k1, k2);
+    else if( root->val < k1)
+        rangeSearch(root->right, k1, k2);
+    else {
+        rangeSearch(root->left, k1, root->val);
+        printf("%d\n", root->val);
+        rangeSearch(root->right, root->val, k2);
+    }
 }
