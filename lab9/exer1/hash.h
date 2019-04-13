@@ -1,6 +1,9 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<string.h>
 #include<math.h>
+#define BASE 100
+int TSIZE;
 
 typedef struct record* rec;
 
@@ -33,3 +36,19 @@ int isPrime(int n);
 int min(int, int);
 
 Hash createHashTable(int size);
+
+void insert(Hash hashTable, char ** str, int j);
+
+int insertAll( Hash hashtable, char ** str, int size);
+
+rec lookup( Hash hashTable, char ** books, char * str);
+
+int lookupAll(Hash hashTable, char ** books, float m);
+
+void htProfiling(Hash hashTable, char ** books);
+
+void cleanup(Hash hashTable, char ** books, char * filename);
+
+void deleteWord(Hash hashTable, char ** books, char *word);
+
+void printHashTable(Hash hashTable, char ** books);

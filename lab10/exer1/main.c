@@ -11,10 +11,10 @@ int main() {
     // Poor implementation, in no mood to change
     tree = add(tree, 5, NULL);
 
-    printf("%d %d %d\n", tree->val, tree->left->val, tree->right->val);
+    printf("Root: %d, Root->left: %d, Root->right: %d\n", tree->val, tree->left->val, tree->right->val);
     printInorder(tree);    
     tree = deleteNode(tree, 4, NULL);
-    printf("%d %d %d\n", tree->val, tree->left->val, tree->right->val);
+    printf("Root: %d, Root->left: %d, Root->right: %d\n", tree->val, tree->left->val, tree->right->val);
     printInorder(tree);
 
     return 0;
